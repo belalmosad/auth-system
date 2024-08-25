@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -16,5 +16,10 @@ export class UsersService {
     } catch (error) {
       throw new BadRequestException();
     }
+  }
+
+  async getUserByUsername(username: string) {
+    const user = await this.repo.findOneBy({ username });
+    return user;
   }
 }
