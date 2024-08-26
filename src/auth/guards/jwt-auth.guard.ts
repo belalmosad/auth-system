@@ -29,7 +29,6 @@ export class JwtAuthGuard implements CanActivate {
         secret: this.configService.get<string>('JWT_SECRET'),
       });
       request['user'] = payload;
-      console.log(request['user'])
     } catch (error) {
       throw new UnauthorizedException('Invalid token');
     }
