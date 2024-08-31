@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { UserEntity } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { BadRequestException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -18,6 +19,12 @@ describe('AuthService', () => {
       getUserByUsername: (username: string) => {
         const user = users.find((user) => {
           return user.username === username
+        });
+        return Promise.resolve(user as UserEntity);
+      },
+      getUser: (username: string, email: string) => {
+        const user = users.find((item) => {
+          return item.email == email || item.username == username;
         });
         return Promise.resolve(user as UserEntity);
       }
@@ -47,6 +54,33 @@ describe('AuthService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('Should sign user up', async () => {
+    const userData = {username: 'belal', password: '123', email:'belal@gmail.com'}
+    const user = await service.userSignUp(userData);
+    expect(user).toBeDefined();
+    expect(user.username).toEqual(userData.username);
+    expect(user.email).toEqual(userData.email);
+    expect(user.password_hash).toBeTruthy();
+  })
+
+  it('Should fail as username is duplicated', async () => {
+    const userData = {username: 'belal', password: '123', email:'belal@gmail.com'};
+    const anotherUserData = {username: 'belal', password: '456', email:'another_user@gmail.com'};
+    await service.userSignUp(userData);
+    await expect(service.userSignUp(anotherUserData)).rejects.toThrow(
+      BadRequestException
+    )
+  });
+
+  it('Should fail as email is duplicated', async () => {
+    const userData = {username: 'belal', password: '123', email:'belal@gmail.com'};
+    const anotherUserData = {username: 'another_user', password: '456', email:'belal@gmail.com'};
+    await service.userSignUp(userData);
+    await expect(service.userSignUp(anotherUserData)).rejects.toThrow(
+      BadRequestException
+    )
   });
 
 });
