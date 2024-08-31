@@ -5,7 +5,7 @@ import { UserEntity } from '../users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserSigninDto } from './dtos/user-signin.dto';
 import { JwtService } from '@nestjs/jwt';
-import { MessageCodes } from '../types/enums/message-codes';
+import { MessageCodes } from '../../common/types/enums/message-codes';
 
 @Injectable()
 export class AuthService {

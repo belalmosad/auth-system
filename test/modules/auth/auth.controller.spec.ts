@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UserSigninDto } from './dtos/user-signin.dto';
-import { UserSignupDto } from './dtos/user-signup.dto';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { AuthController } from '../../../src/modules/auth/auth.controller';
+import { AuthService } from '../../../src/modules/auth/auth.service';
+import { UserSigninDto } from '../../../src/modules/auth/dtos/user-signin.dto';
+import { UserSignupDto } from '../../../src/modules/auth/dtos/user-signup.dto';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
 
 describe('AuthController', () => {
