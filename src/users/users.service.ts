@@ -22,4 +22,14 @@ export class UsersService {
     const user = await this.repo.findOneBy({ username });
     return user;
   }
+
+  async getUser(username?: string, email?: string) {
+    const user = await this.repo.findOne({
+      where: [
+        {username},
+        {email}
+      ]
+    });
+    return user;
+  }
 }
