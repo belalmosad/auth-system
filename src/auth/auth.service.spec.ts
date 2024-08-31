@@ -83,4 +83,51 @@ describe('AuthService', () => {
     )
   });
 
+  it('Shoul sign user in and retun token', async () => {
+    const userData = {
+      username: 'test_user',
+      email: 'test@gmail.com',
+      password: '123'
+    }
+    await service.userSignUp(userData);
+    const signUserData = {
+      username: 'test_user',
+      password: '123'
+    }
+    const accessToken = await service.userSignin(signUserData);
+    expect(accessToken).toBeTruthy();
+  });
+
+  it('Shoul fail sign user in because of wrong password', async () => {
+    const userData = {
+      username: 'test_user',
+      email: 'test@gmail.com',
+      password: '123'
+    }
+    await service.userSignUp(userData);
+    const signUserData = {
+      username: 'test_user',
+      password: '456'
+    }
+    await expect(service.userSignin(signUserData)).rejects.toThrow(
+      BadRequestException
+    );
+  });
+
+  it('Shoul fail sign user in because of wrong username', async () => {
+    const userData = {
+      username: 'test_user',
+      email: 'test@gmail.com',
+      password: '123'
+    }
+    await service.userSignUp(userData);
+    const signUserData = {
+      username: 'test_user_wrong',
+      password: '123'
+    }
+    await expect(service.userSignin(signUserData)).rejects.toThrow(
+      BadRequestException
+    );
+  })
+
 });
