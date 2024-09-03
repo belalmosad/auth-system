@@ -9,13 +9,10 @@ export class AuthController {
   @Post('/signup')
   async userSignUp(@Body() signupData: UserSignupDto) {
     const createdUser = await this.authService.userSignUp(signupData);
-    return {
-      success: true,
-      createdUser,
-    };
+    return createdUser;
   }
 
-  @Post('signin')
+  @Post('/signin')
   async userSignin(@Body() signinUser: UserSigninDto) {
     const accessToken = await this.authService.userSignin(signinUser);
     return { accessToken };
