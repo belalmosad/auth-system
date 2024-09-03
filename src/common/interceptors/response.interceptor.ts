@@ -17,7 +17,8 @@ export class ResponseInterceptor implements NestInterceptor {
                 return throwError(() => new HttpException({
                     success: false,
                     statusCode,
-                    message: error.message
+                    message: error.message,
+                    originalResponse: error.response.message || 'No response'
                 }, statusCode))
             })
         )
