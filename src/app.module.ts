@@ -6,6 +6,8 @@ import { UserEntity } from './modules/users/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 @Module({
   imports: [
@@ -31,7 +33,13 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
     AuthModule
   ],
   controllers: [],
-  providers: [JwtAuthGuard]
+  providers: [
+    JwtAuthGuard,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor
+    }
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
