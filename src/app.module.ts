@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
@@ -6,7 +6,7 @@ import { UserEntity } from './modules/users/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 @Module({
@@ -38,6 +38,12 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor
+    },
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true
+      })
     }
   ]
 })
