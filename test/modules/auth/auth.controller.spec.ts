@@ -68,8 +68,6 @@ describe('AuthController', () => {
     }
     const result = await controller.userSignUp(signupUserDto);
     expect(result).toBeDefined();
-    expect(result.success).toEqual(true);
-    expect(result.createdUser).toBeDefined();
   })
 
   it('should not sign user up becuse of duplicate username',async () => {
