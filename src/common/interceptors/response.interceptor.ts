@@ -18,7 +18,7 @@ export class ResponseInterceptor implements NestInterceptor {
                     success: false,
                     statusCode,
                     message: error.message,
-                    originalResponse: error.response.message || 'No response'
+                    originalResponse: error.response?.message ?? 'No response'
                 }, statusCode))
             })
         )
