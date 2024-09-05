@@ -8,6 +8,8 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { RolesManagementModule } from './roles-management/roles-management.module';
+import { RoleEntity } from './roles-management/entities/role.entity';
 
 @Module({
   imports: [
@@ -25,12 +27,13 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [UserEntity], 
+        entities: [UserEntity, RoleEntity], 
         synchronize: true, // Set to false in production
       })
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    RolesManagementModule
   ],
   controllers: [],
   providers: [
