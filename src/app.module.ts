@@ -10,6 +10,7 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { RolesManagementModule } from './roles-management/roles-management.module';
 import { RoleEntity } from './roles-management/entities/role.entity';
+import { AssignRoleEntity } from './roles-management/entities/assign-role.entity';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { RoleEntity } from './roles-management/entities/role.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [UserEntity, RoleEntity], 
+        entities: [UserEntity, RoleEntity, AssignRoleEntity], 
         synchronize: true, // Set to false in production
       })
     }),
